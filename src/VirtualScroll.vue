@@ -16,17 +16,6 @@ const SETTINGS = {
   tolerance: 2,
 }
 
-const getData = (offset, limit) => {
-  const data = []
-  let start = Math.max(SETTINGS.minIndex, offset)
-  let end = Math.min(SETTINGS.maxIndex, offset + limit - 1)
-  if(start > end) return data
-  for(let i = start; i <= end; i++) {
-    data.push({index: i, text: `item ${i}`})
-  }
-  return data
-}
-
 const init = (settings) => {
   const {minIndex, maxIndex, startIndex, itemHeight, amount, tolerance} = settings
 
@@ -64,13 +53,31 @@ const init = (settings) => {
 
 export default {
   props: {
-    row: Object
+    row: {
+      type: Object,
+      required: true
+    },
+    settings: {
+      type: Object,
+      required: true
+    },
+    getData: {
+      type: Function,
+      required: true
+    }
   },
   data: () => ({
     opts: {}
   }),
   created() {
-    this.opts = init(SETTINGS)
+    let settings = {...SETTINGS, ...this.settings}
+    let { minIndex, maxIndex, startIndex, tolerance } = settings
+    minIndex = Math.min(minIndex, maxIndex)
+    startIndex = Math.max(minIndex, startIndex)
+    tolerance = Math.max(tolerance, 0)
+    
+    this.opts = {...settings, ...{minIndex, maxIndex, startIndex, tolerance}}
+    this.opts = init(this.opts)
   },
   computed: {
     styleViewport() {
@@ -91,6 +98,9 @@ export default {
     }
   },
   mounted() {
+    let viewport = this.$refs.viewport
+    if(!viewport) return
+
     this.$refs.viewport.scrollTop = this.opts.initPosition
     if(!this.opts.initPosition) {
       this.runScroller(0)
@@ -98,21 +108,20 @@ export default {
   },
   methods: {
     runScroller(scrollTop) {
-      let { totalHeight, toleranceHeight, bufferedItems, settings: {minIndex, itemHeight}} = this.opts
+      let { totalHeight, toleranceHeight, bufferedItems, settings: {minIndex, itemHeight, maxIndex}} = this.opts
       let index = minIndex + Math.floor((scrollTop - toleranceHeight) / itemHeight)
-      let data = getData(index, bufferedItems)
+
+      let start = Math.max(minIndex, index)
+      let end = Math.min(maxIndex, index + bufferedItems - 1)
+      let data = this.getData(start, end)
+
       let topPaddingHeight =  Math.max((index - minIndex) * itemHeight, 0)
       let bottomPaddingHeight = Math.max(totalHeight - data.length * itemHeight - topPaddingHeight, 0)
 
       this.$set(this.opts, 'topPaddingHeight', topPaddingHeight)
       this.$set(this.opts, 'bottomPaddingHeight', bottomPaddingHeight)
       this.$set(this.opts, 'data', data)
-      //this.opts = Object.assign({}, this.opts, {topPaddingHeight, bottomPaddingHeight, data})
     }
   }
 }
 </script>
-
-<style>
-
-</style>

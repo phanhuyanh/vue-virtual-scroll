@@ -1,40 +1,44 @@
 <template>
   <div>
-    <virtual-scroll :row="itemComponent"/>
+    <virtual-scroll :row="itemComponent" :getData="getData" :settings="settings"/>
   </div>
 </template>
 
 <script>
-// import VirtualScroll from './src/VirtualScroll.js'
 import rowTemplate from './dev/rowTemplate.vue'
 import VirtualScroll from './src/VirtualScroll.vue'
 
 export default {
-  props: ['row'],
   components: {
     VirtualScroll
   },
   data: () => ({
     itemComponent: rowTemplate,
-    items: [
-      {text: 1, index: 1},
-      {text: 2, index: 2},
-      {text: 3, index: 3},
-      {text: 4, index: 4},
-      {text: 5, index: 5},
-      {text: 6, index: 6},
-      {text: 7, index: 7},
-      {text: 8, index: 8},
-      {text: 9, index: 9},
-      {text: 10, index: 10},
-      {text: 11, index: 11},
-      {text: 12, index: 12},
-      {text: 13, index: 13},
-      {text: 14, index: 14},
-      {text: 15, index: 15},
-      {text: 16, index: 16},
-    ]
-  })
+    items: [],
+    settings: {
+      minIndex: 1,
+      maxIndex: 100,
+      startIndex: 0,
+      itemHeight: 20,
+      amount: 7
+    }
+  }),
+  created() {
+    this.items = Array.from({length: 100}, (_,i) => {
+      let r = {index: i, text: `item ${i}`}
+      return r
+    })
+  },
+  methods: {
+    getData(start, end) {
+      const data = []
+      if(start > end) return data
+      for(let i = start; i <= end; i++) {
+        data.push({index: i, text: `item ${i}`})
+      }
+      return data
+    }
+  }
 }
 </script>
 
