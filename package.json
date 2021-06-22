@@ -2,24 +2,19 @@
   "name": "vue-virtual-scroll",
   "version": "1.0.0",
   "description": "Vue Virtual Scroll",
-  "main": "index.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rimraf dist",
     "serve": "npx webpack serve --mode development",
     "build": "npm run clean && webpack --mode production"
   },
-  "author": "",
+  "author": "phanhuyanh",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.5",
-    "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
-    "@vue/babel-preset-jsx": "^1.2.4",
-    "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^8.2.2",
-    "babel-plugin-syntax-jsx": "^6.18.0",
-    "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-env": "^1.7.0",
     "html-webpack-plugin": "^5.3.1",
     "rimraf": "^3.0.2",
@@ -29,5 +24,18 @@
     "webpack": "^5.39.1",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/phanhuyanh/vue-virtual-scroll/issues"
+  },
+  "keywords": [
+    "vue-virtual-scroll",
+    "virtual-scroll",
+    "nuxt-virtual-scroll"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phanhuyanh/vue-virtual-scroll"
   }
 }

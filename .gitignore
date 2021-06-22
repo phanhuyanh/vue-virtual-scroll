@@ -2,3 +2,14 @@ node_modules/
 
 public/
 
+dev/
+
+main.js
+
+App.vue
+
+webpack.config.js
+
+dist/
+
+.DS_Store

@@ -1,0 +1,13 @@
+dev/
+
+public/
+
+src/
+
+App.vue
+
+main.js
+
+webpack.config.js
+
+node_modules/

@@ -1,7 +1,7 @@
 <template>
   <div class="viewport" :style="styleViewport" ref="viewport" @scroll="(e) => runScroller(e.target.scrollTop)">
     <div class="top-padding-height" :style="styleTop"></div>
-    <component :is="row" v-for="item in opts.data" :key="item.index" :item="item"></component>
+    <component :is="row" v-for="(item, i) in opts.data" :key="i" :item="item"></component>
     <div class="bottom-padding-height" :style="styleBottom"></div>
   </div>
 </template>
